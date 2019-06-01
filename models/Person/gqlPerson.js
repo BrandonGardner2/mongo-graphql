@@ -38,6 +38,22 @@ const personSchema = new GraphQLSchema({
         }
       }
     }
+  }),
+  mutation: new GraphQLObjectType({
+    name: "Mutation",
+    fields: {
+      person: {
+        type: PersonType,
+        args: {
+          firstname: { type: GraphQLNonNull(GraphQLString) },
+          lastname: { type: GraphQLNonNull(GraphQLString) }
+        },
+        resolve: (root, args, context, info) => {
+          const person = new PersonModel(args);
+          return person.save();
+        }
+      }
+    }
   })
 });
 
